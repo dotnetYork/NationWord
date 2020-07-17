@@ -26,53 +26,56 @@ namespace NationWord
         }
     }
 
+    [DisassemblyDiagnoser(printSource: true)]
     [MemoryDiagnoser]
     public class BenchmarkTests
     {
         private Task2 _service;
 
+
+        private string[] _input;
+
         public BenchmarkTests()
         {
             _service = new Task2();
+            _input = new[] {"ezy", "jnx", "btp", "co", "dil", "ity", "abc", "mno", "qwerty", "a", "b", "c", "d", "ef",
+                "gh", "ij", "klm"};
         }
 
         [Benchmark(Baseline = true)]
         public void Original()
         {
-            _service.Solve("ezy", "jnx", "btp");
-            _service.Solve("ez", "jn", "bt");
-            _service.Solve("ab", "cd", "ac");
-            _service.Solve("co", "dil", "ity");
-            _service.Solve("co", "dil", "ity", "abc", "mno");
-            _service.Solve("banana", "racecar", "potato");
-            _service.Solve("ezy", "jnx", "btp", "co", "dil", "ity", "abc", "mno", "qwerty", "a", "b", "c", "d", "ef",
-                "gh", "ij", "klm");//, "nop", "qrt"); //, "uvwx");
+            //_service.Solve("ezy", "jnx", "btp");
+            //_service.Solve("ez", "jn", "bt");
+            //_service.Solve("ab", "cd", "ac");
+            //_service.Solve("co", "dil", "ity");
+            //_service.Solve("co", "dil", "ity", "abc", "mno");
+            //_service.Solve("banana", "racecar", "potato");
+            _service.Solve(_input);//, "nop", "qrt"); //, "uvwx");
         }
 
         [Benchmark]
         public void Solve3()
         {
-            _service.Solve3("ezy", "jnx", "btp");
-            _service.Solve3("ez", "jn", "bt");
-            _service.Solve3("ab", "cd", "ac");
-            _service.Solve3("co", "dil", "ity");
-            _service.Solve3("co", "dil", "ity", "abc", "mno");
-            _service.Solve3("banana", "racecar", "potato");
-            _service.Solve3("ezy", "jnx", "btp", "co", "dil", "ity", "abc", "mno", "qwerty", "a", "b", "c", "d", "ef",
-                "gh", "ij", "klm");//, "nop", "qrt"); //, "uvwx");
+            //_service.Solve3("ezy", "jnx", "btp");
+            //_service.Solve3("ez", "jn", "bt");
+            //_service.Solve3("ab", "cd", "ac");
+            //_service.Solve3("co", "dil", "ity");
+            //_service.Solve3("co", "dil", "ity", "abc", "mno");
+            //_service.Solve3("banana", "racecar", "potato");
+            _service.Solve3(_input);//, "nop", "qrt"); //, "uvwx");
         }
 
         [Benchmark]
         public void Solve5()
         {
-            _service.Solve5("ezy", "jnx", "btp");
-            _service.Solve5("ez", "jn", "bt");
-            _service.Solve5("ab", "cd", "ac");
-            _service.Solve5("co", "dil", "ity");
-            _service.Solve5("co", "dil", "ity", "abc", "mno");
-            _service.Solve5("banana", "racecar", "potato");
-            _service.Solve5("ezy", "jnx", "btp", "co", "dil", "ity", "abc", "mno", "qwerty", "a", "b", "c", "d", "ef",
-                "gh", "ij", "klm");//, "nop", "qrt"); //, "uvwx");
+            //_service.Solve5("ezy", "jnx", "btp");
+            //_service.Solve5("ez", "jn", "bt");
+            //_service.Solve5("ab", "cd", "ac");
+            //_service.Solve5("co", "dil", "ity");
+            //_service.Solve5("co", "dil", "ity", "abc", "mno");
+            //_service.Solve5("banana", "racecar", "potato");
+            _service.Solve5(_input);//, "nop", "qrt"); //, "uvwx");
         }
 
         //[Benchmark]
@@ -214,7 +217,6 @@ namespace NationWord
 
                     if (numberOfBitsSet[numberOfInputs] > max) max = numberOfBitsSet[numberOfInputs];
 
-                   // max = System.Math.Max(numberOfBitsSet[numberOfInputs], max);
                     numberOfInputs++;
                 }
             }
@@ -229,18 +231,15 @@ namespace NationWord
                     for (var k = i+1; k <= j; k++)
                     {
                         var b = bits[k];
-                        if ((combined & bits[k]) == 0)
-                        {
-                            combined = combined + b;
-                            set = set + numberOfBitsSet[k];
-
-                            if (set > max) max = set;
-                            //max = System.Math.Max(set, max);
-                        }
-                        else
+                        if ((combined & b) != 0)
                         {
                             break;
                         }
+
+                        combined = combined | b;
+                        set = set + numberOfBitsSet[k];
+
+                        if (set > max) max = set;
                     }
                 }
             }
