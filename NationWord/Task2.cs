@@ -176,7 +176,7 @@ namespace NationWord
                         var combined = 0;
                         for (var k = i; k <= j; k++)
                         {
-                            if ((combined & bits[k]) == 0) //!Overlaps(combined, bits[k]))
+                            if (!Overlaps(combined, bits[k]))
                             {
                                 combined = combined + bits[k];
 
@@ -229,13 +229,13 @@ namespace NationWord
                     for (var k = i+1; k <= j; k++)
                     {
                         var b = bits[k];
-                        if (!Overlaps(combined, b))
+                        if ((combined & bits[k]) == 0)
                         {
                             combined = combined + b;
                             set = set + numberOfBitsSet[k];
 
                             if (set > max) max = set;
-                  //          //max = System.Math.Max(set, max);
+                            //max = System.Math.Max(set, max);
                         }
                         else
                         {
